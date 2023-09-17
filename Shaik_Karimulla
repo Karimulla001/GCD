@@ -1,0 +1,18 @@
+module gcd_dp1(x,y,clk,rst,xsel,ysel,xen,yen,out_en,gt,lt,eq,gcd);
+input [3:0]x,y;
+output [3:0]gcd;
+input xsel,ysel,xen,yen,out_en,clk,rst;
+output gt,lt,eq;
+wire [3:0]mx,my;
+wire [3:0]rx,ry;
+wire [3:0]subx,suby;
+mux m1(x,subx,xsel,mx);
+dlatch d1(mx,clk,rst,xen,rx);
+mux m2(y,suby,ysel,my);
+dlatch d2(my,clk,rst,yen,ry);
+sub s1(rx,ry,subx);
+sub s2(ry,rx,suby);
+comp c1(rx,ry,lt,eq,gt);
+dlatch d3(rx,clk,rst,out_en,gcd);
+
+endmodule
